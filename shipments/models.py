@@ -27,3 +27,14 @@ class Package(models.Model):
     width = models.FloatField()
     height = models.FloatField()
     depth = models.FloatField()
+
+    
+class StatusHistory(models.Model):
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name="status_history")
+    status = models.CharField(max_length=100, blank=True)
+    logged_by = models.ForeignKey(User, 
+                                  on_delete=models.SET_NULL,
+                                  null=True,
+                                  blank=True,
+                                  related_name="logged_status_update")
+    created_at = models.DateTimeField(auto_now_add=True)
