@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'users',
     'shipments',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -122,3 +123,5 @@ from decouple import config
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
+
+AUTH_USER_MODEL = "users.CustomUser"
