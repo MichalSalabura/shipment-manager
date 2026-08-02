@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Dashboard</title>
+</head>
+<body>
+    <h2>Driver Dashboard</h2>
+    <p>Logged in as: <strong>{{ user.username }}</strong></p>
+
+    <h3>My Assigned Packages</h3>
+
+    {% if assigned_packages %}
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Package ID</th>
+                    <th>Recipient</th>
+                    <th>Destination City</th>
+                    <th>Scheduled Delivery</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package in assigned_packages %}
+                    <tr>
+                        <td><strong>{{ package.id }}</strong></td>
+                        <td>{{ package.to_name }}</td>
+                        <td>{{ package.to_address_city }}</td>
+                        <td>{{ package.scheduled_delivery|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            <a href="{% url 'update_package_status' package.id %}">Update Status</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No packages currently assigned to you.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>
