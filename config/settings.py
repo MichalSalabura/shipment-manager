@@ -126,3 +126,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'client_dashboard'
+LOGOUT_REDIRECT_URL = 'login'
