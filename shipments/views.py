@@ -3,8 +3,10 @@ from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Package, StatusHistory
-from .forms import PackageStatusUpdateForm
-# Create your views here.
+from .forms import PackageStatusUpdateForm, CreateNewPackageForm
+import uuid
+from datetime import datetime, timedelta
+
 
 class UpdatePackageStatusView(LoginRequiredMixin, CreateView):
     model = StatusHistory
@@ -34,3 +36,15 @@ class ClientDashboardView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Package.objects.filter(sender=self.request.user)
+
+class CreatePackageView(LoginRequiredMixin, CreateView):
+    model = Package
+    form_class = CreateNewPackageForm
+    template_name = "shipments/create_package.html"
+    success_url = reverse_lazy('client_dashboard')
+
+    def form_valid(self, form):
+        form.instance.sender = self.request.user
+        form.instance.id = f"PKG-{uuid.uuid4().hex[:8].upper()}"
+        form.instance.scheduled_delivery = datetime.now() + timedelta(days=7)
+        return super().form_valid(form)
