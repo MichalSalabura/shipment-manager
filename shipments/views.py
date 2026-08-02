@@ -26,3 +26,11 @@ class DriverDashboardView(LoginRequiredMixin, ListView):
         if hasattr(self.request.user, 'driver_profile'):
             return Package.objects.filter(driver=self.request.user.driver_profile)
         return Package.objects.none()
+
+class ClientDashboardView(LoginRequiredMixin, ListView):
+    model = Package
+    template_name = "shipments/client_dashboard.html"
+    context_object_name = "my_packages"
+
+    def get_queryset(self):
+        return Package.objects.filter(sender=self.request.user)
