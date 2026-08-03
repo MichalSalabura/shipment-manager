@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dispatch Package {{ package.id }}</title>
+</head>
+<body>
+    <h2>Dispatch Package: {{ object.id }}</h2>
+    <p><strong>Destination:</strong> {{ object.to_name }} — {{ object.to_address_city }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Assign & Dispatch</button>
+    </form>
+
+    <br>
+    <a href="{% url 'manager_dashboard' %}">Cancel</a>
+</body>
+</html>
