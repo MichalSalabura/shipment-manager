@@ -28,3 +28,11 @@ class CreateNewPackageForm(forms.ModelForm):
             'from_address_line_2': forms.TextInput(attrs={'placeholder': 'Apartment, suite, etc. (optional)'}),
             'to_address_line_2': forms.TextInput(attrs={'placeholder': 'Apartment, suite, etc. (optional)'}),
         }
+
+class AssignDriverForm(forms.ModelForm):
+    class Meta:
+        model = Package
+        fields = ['driver']
+        widgets = {
+            'driver': forms.Select(attrs={'class': 'form-select'}),
+        }
