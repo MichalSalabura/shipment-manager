@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Package, StatusHistory
-from .forms import PackageStatusUpdateForm, CreateNewPackageForm
+from .forms import PackageStatusUpdateForm, CreateNewPackageForm, AssignDriverForm
 import uuid
 from datetime import datetime, timedelta
 
@@ -48,3 +48,11 @@ class CreatePackageView(LoginRequiredMixin, CreateView):
         form.instance.id = f"PKG-{uuid.uuid4().hex[:8].upper()}"
         form.instance.scheduled_delivery = datetime.now() + timedelta(days=7)
         return super().form_valid(form)
+
+class ManagerDashboardView(LoginRequiredMixin, ListView):
+    model = Package
+    template_name = 'shipments/manager_dashboard.html'
+    context_object_name = "unassigned_packages"
+
+    def get_queryset(self):
+        return Package.objects.filter(driver__isnull = True)
