@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manager dashboard</title>
+</head>
+<body>
+    <h2>Manager dashboard</h2>
+    <p>Logged in as: <strong>{{ user.username }}</strong></p>
+
+    <br><br>
+
+    <h3>Unassigned packages</h3>
+
+    {% if unassigned_packages %}
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Package ID</th>
+                    <th>Sender</th>
+                    <th>Destination</th>
+                    <th>Scheduled Delivery</th>
+                    <th>Assigned Driver</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package in unassigned_packages %}
+                    <tr>
+                        <td><strong>{{ package.id }}</strong></td>
+                        <td>{{ package.sender.username }}</td>
+                        <td>{{ package.to_address_city }}, {{ package.to_country }}</td>
+                        <td>{{ package.scheduled_delivery|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            <a href="{% url 'assign_driver' package.id %}">Assign Driver</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>All packages are assigned</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>
