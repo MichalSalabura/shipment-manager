@@ -56,3 +56,9 @@ class ManagerDashboardView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Package.objects.filter(driver__isnull = True)
+
+class AssignDriverView(LoginRequiredMixin, UpdateView):
+    model = Package
+    form_class = AssignDriverForm
+    template_name = "shipments/assign_driver.html"
+    success_url = reverse_lazy('manager_dashboard')
