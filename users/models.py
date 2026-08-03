@@ -45,6 +45,12 @@ class DriverProfile(models.Model):
         related_name="assigned_drivers",
     )
 
+    def __str__(self):
+        full_name = self.user.get_full_name()
+        if full_name:
+            return f'{full_name}'
+        return f"{self.user.username}"
+
 class ClientProfile(models.Model):
     user = models.OneToOneField(
         CustomUser,
